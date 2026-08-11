@@ -12,6 +12,12 @@ const STATUS_LABEL: Record<string, string> = {
   MISSING: "未打刻",
 };
 
+const STATUS_CLASS: Record<string, string> = {
+  NORMAL: "text-ink-faint",
+  CORRECTED: "text-status-warn",
+  MISSING: "text-stamp",
+};
+
 export default async function HistoryPage({
   searchParams,
 }: {
@@ -27,55 +33,57 @@ export default async function HistoryPage({
   const records = await getMonthlyRecords(user.id, year, month);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper">
       <AppHeader user={user} />
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <Link
             href={`/history?month=${shiftMonth(year, month, -1)}`}
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-ink-soft hover:text-stamp"
           >
             ← 前月
           </Link>
-          <h1 className="text-lg font-semibold text-gray-900">
+          <h1 className="font-display text-lg text-ink">
             {year}年{month}月の勤怠履歴
           </h1>
           <Link
             href={`/history?month=${shiftMonth(year, month, 1)}`}
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-ink-soft hover:text-stamp"
           >
             翌月 →
           </Link>
         </div>
 
-        <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+        <div className="overflow-x-auto border border-paper-line bg-paper-raised">
+          <table className="ledger-table min-w-full text-sm">
+            <thead>
               <tr>
-                <th className="px-4 py-2 text-left font-medium text-gray-500">日付</th>
-                <th className="px-4 py-2 text-left font-medium text-gray-500">出勤</th>
-                <th className="px-4 py-2 text-left font-medium text-gray-500">退勤</th>
-                <th className="px-4 py-2 text-left font-medium text-gray-500">休憩</th>
-                <th className="px-4 py-2 text-left font-medium text-gray-500">状態</th>
+                <th>日付</th>
+                <th>出勤</th>
+                <th>退勤</th>
+                <th>休憩</th>
+                <th>状態</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {records.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
+                  <td colSpan={5} className="px-4 py-6 text-center text-ink-faint">
                     この月の打刻記録はありません
                   </td>
                 </tr>
               )}
               {records.map((record) => (
                 <tr key={record.id}>
-                  <td className="px-4 py-2 text-gray-900">{formatDateWithWeekday(record.date)}</td>
-                  <td className="px-4 py-2 text-gray-700">{formatTime(record.clockIn)}</td>
-                  <td className="px-4 py-2 text-gray-700">{formatTime(record.clockOut)}</td>
-                  <td className="px-4 py-2 text-gray-700">
+                  <td>{formatDateWithWeekday(record.date)}</td>
+                  <td className="tabular">{formatTime(record.clockIn)}</td>
+                  <td className="tabular">{formatTime(record.clockOut)}</td>
+                  <td className="tabular">
                     {formatTime(record.breakStart)} - {formatTime(record.breakEnd)}
                   </td>
-                  <td className="px-4 py-2 text-gray-700">{STATUS_LABEL[record.status] ?? record.status}</td>
+                  <td className={STATUS_CLASS[record.status] ?? "text-ink"}>
+                    {STATUS_LABEL[record.status] ?? record.status}
+                  </td>
                 </tr>
               ))}
             </tbody>

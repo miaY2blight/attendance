@@ -30,22 +30,15 @@ export default async function AdminAttendancePage({
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-lg font-semibold text-gray-900">月次勤怠一覧</h1>
-        <a
-          href={exportHref}
-          className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
-        >
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-lg text-ink">月次勤怠一覧</h1>
+        <a href={exportHref} className="btn-stamp">
           CSVダウンロード
         </a>
       </div>
 
       <form className="mb-4 flex flex-wrap items-center gap-3 text-sm">
-        <select
-          name="employeeId"
-          defaultValue={selectedEmployeeId}
-          className="rounded-md border border-gray-300 px-3 py-2"
-        >
+        <select name="employeeId" defaultValue={selectedEmployeeId} className="field-input w-auto">
           <option value="">全社員</option>
           {employees.map((employee) => (
             <option key={employee.id} value={employee.id}>
@@ -53,49 +46,45 @@ export default async function AdminAttendancePage({
             </option>
           ))}
         </select>
-        <input
-          type="month"
-          name="month"
-          defaultValue={monthValue}
-          className="rounded-md border border-gray-300 px-3 py-2"
-        />
-        <button type="submit" className="rounded-md border border-gray-300 px-3 py-2 hover:bg-gray-100">
+        <input type="month" name="month" defaultValue={monthValue} className="field-input tabular w-auto" />
+        <button type="submit" className="btn-outline">
           絞り込み
         </button>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto border border-paper-line bg-paper-raised">
+        <table className="ledger-table min-w-full text-sm">
+          <thead>
             <tr>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">社員</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">日付</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">出勤</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">退勤</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">休憩</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">状態</th>
+              <th>社員</th>
+              <th>日付</th>
+              <th>出勤</th>
+              <th>退勤</th>
+              <th>休憩</th>
+              <th>状態</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody>
             {records.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={6} className="px-4 py-6 text-center text-ink-faint">
                   この月の打刻記録はありません
                 </td>
               </tr>
             )}
             {records.map((record) => (
               <tr key={record.id}>
-                <td className="px-4 py-2 text-gray-900">
-                  {record.user.name}({record.user.employeeCode})
+                <td>
+                  {record.user.name}
+                  <span className="tabular text-ink-faint">({record.user.employeeCode})</span>
                 </td>
-                <td className="px-4 py-2 text-gray-700">{formatDateWithWeekday(record.date)}</td>
-                <td className="px-4 py-2 text-gray-700">{formatTime(record.clockIn)}</td>
-                <td className="px-4 py-2 text-gray-700">{formatTime(record.clockOut)}</td>
-                <td className="px-4 py-2 text-gray-700">
+                <td>{formatDateWithWeekday(record.date)}</td>
+                <td className="tabular">{formatTime(record.clockIn)}</td>
+                <td className="tabular">{formatTime(record.clockOut)}</td>
+                <td className="tabular">
                   {formatTime(record.breakStart)} - {formatTime(record.breakEnd)}
                 </td>
-                <td className="px-4 py-2 text-gray-700">{STATUS_LABEL[record.status] ?? record.status}</td>
+                <td>{STATUS_LABEL[record.status] ?? record.status}</td>
               </tr>
             ))}
           </tbody>

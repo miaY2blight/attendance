@@ -18,7 +18,7 @@ type Props = {
   breakDone: boolean;
 };
 
-function ActionButton({
+function StampButton({
   action,
   label,
   variant = "primary",
@@ -29,38 +29,42 @@ function ActionButton({
 }) {
   const [state, formAction, pending] = useActionState(action, initialState);
 
-  const className =
-    variant === "primary"
-      ? "w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-      : "w-full rounded-md border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50";
-
   return (
-    <form action={formAction} className="space-y-1">
-      <button type="submit" disabled={pending} className={className}>
-        {pending ? "処理中..." : label}
+    <form action={formAction} className="flex flex-col items-center gap-2">
+      <button
+        type="submit"
+        disabled={pending}
+        className={`stamp-button ${variant === "secondary" ? "stamp-button--secondary" : ""}`}
+      >
+        {pending ? "…" : label}
       </button>
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-stamp-deep">{state.error}</p>}
     </form>
   );
 }
 
 export function AttendanceButtons({ clockedIn, clockedOut, onBreak, breakDone }: Props) {
   if (clockedOut) {
-    return <p className="text-center text-sm text-gray-500">本日の勤務は終了しました。お疲れさまでした。</p>;
+    return (
+      <div className="flex flex-col items-center gap-2 py-4">
+        <span className="stamp-badge text-status-ok">本日の勤務は終了しました</span>
+        <p className="text-sm text-ink-faint">お疲れさまでした</p>
+      </div>
+    );
   }
 
   if (!clockedIn) {
-    return <ActionButton action={clockIn} label="出勤" />;
+    return <StampButton action={clockIn} label="出勤" />;
   }
 
   if (onBreak) {
-    return <ActionButton action={endBreak} label="休憩終了" variant="secondary" />;
+    return <StampButton action={endBreak} label="休憩終了" variant="secondary" />;
   }
 
   return (
-    <div className="space-y-3">
-      {!breakDone && <ActionButton action={startBreak} label="休憩開始" variant="secondary" />}
-      <ActionButton action={clockOut} label="退勤" />
+    <div className="flex items-end justify-center gap-6">
+      {!breakDone && <StampButton action={startBreak} label="休憩開始" variant="secondary" />}
+      <StampButton action={clockOut} label="退勤" />
     </div>
   );
 }

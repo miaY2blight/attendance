@@ -10,10 +10,10 @@ export default async function NewCorrectionRequestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper">
       <AppHeader user={user} />
       <main className="mx-auto max-w-lg px-4 py-8">
-        <h1 className="mb-6 text-lg font-semibold text-gray-900">打刻修正申請</h1>
+        <h1 className="mb-6 font-display text-lg text-ink">打刻修正申請</h1>
         <CorrectionRequestForm />
       </main>
     </div>

@@ -6,44 +6,42 @@ export default async function AdminEmployeesPage() {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-gray-900">社員管理</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="font-display text-lg text-ink">社員管理</h1>
         <Link
           href="/admin/employees/new"
-          className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="border border-ink bg-ink px-3 py-2 text-sm font-medium text-paper transition-colors hover:bg-stamp hover:border-stamp"
         >
           新規登録
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto border border-paper-line bg-paper-raised">
+        <table className="ledger-table min-w-full text-sm">
+          <thead>
             <tr>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">社員ID</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">氏名</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">権限</th>
-              <th className="px-4 py-2 text-left font-medium text-gray-500">状態</th>
-              <th className="px-4 py-2" />
+              <th>社員ID</th>
+              <th>氏名</th>
+              <th>権限</th>
+              <th>状態</th>
+              <th />
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody>
             {employees.map((employee) => (
               <tr key={employee.id}>
-                <td className="px-4 py-2 text-gray-900">{employee.employeeCode}</td>
-                <td className="px-4 py-2 text-gray-700">{employee.name}</td>
-                <td className="px-4 py-2 text-gray-700">{employee.role === "ADMIN" ? "管理者" : "社員"}</td>
-                <td className="px-4 py-2">
+                <td className="tabular">{employee.employeeCode}</td>
+                <td>{employee.name}</td>
+                <td>{employee.role === "ADMIN" ? "管理者" : "社員"}</td>
+                <td>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                      employee.isActive ? "bg-green-100 text-green-800" : "bg-gray-200 text-gray-600"
-                    }`}
+                    className={`stamp-badge ${employee.isActive ? "text-status-ok" : "text-ink-faint"}`}
                   >
                     {employee.isActive ? "有効" : "無効"}
                   </span>
                 </td>
-                <td className="px-4 py-2 text-right">
-                  <Link href={`/admin/employees/${employee.id}/edit`} className="text-blue-600 hover:underline">
+                <td className="text-right">
+                  <Link href={`/admin/employees/${employee.id}/edit`} className="text-ink-soft hover:text-stamp">
                     編集
                   </Link>
                 </td>

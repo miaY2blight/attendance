@@ -9,88 +9,51 @@ export function CorrectionRequestForm() {
   const [state, formAction, pending] = useActionState(submitCorrectionRequest, initialState);
 
   return (
-    <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <form action={formAction} className="space-y-5 border border-paper-line bg-paper-raised p-6">
       <div>
-        <label htmlFor="targetDate" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="targetDate" className="field-label">
           対象日
         </label>
-        <input
-          id="targetDate"
-          name="targetDate"
-          type="date"
-          required
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        />
+        <input id="targetDate" name="targetDate" type="date" required className="field-input tabular" />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="requestedClockIn" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="requestedClockIn" className="field-label">
             出勤時刻
           </label>
-          <input
-            id="requestedClockIn"
-            name="requestedClockIn"
-            type="time"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+          <input id="requestedClockIn" name="requestedClockIn" type="time" className="field-input tabular" />
         </div>
         <div>
-          <label htmlFor="requestedClockOut" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="requestedClockOut" className="field-label">
             退勤時刻
           </label>
-          <input
-            id="requestedClockOut"
-            name="requestedClockOut"
-            type="time"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+          <input id="requestedClockOut" name="requestedClockOut" type="time" className="field-input tabular" />
         </div>
         <div>
-          <label htmlFor="requestedBreakStart" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="requestedBreakStart" className="field-label">
             休憩開始
           </label>
-          <input
-            id="requestedBreakStart"
-            name="requestedBreakStart"
-            type="time"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+          <input id="requestedBreakStart" name="requestedBreakStart" type="time" className="field-input tabular" />
         </div>
         <div>
-          <label htmlFor="requestedBreakEnd" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="requestedBreakEnd" className="field-label">
             休憩終了
           </label>
-          <input
-            id="requestedBreakEnd"
-            name="requestedBreakEnd"
-            type="time"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+          <input id="requestedBreakEnd" name="requestedBreakEnd" type="time" className="field-input tabular" />
         </div>
       </div>
 
       <div>
-        <label htmlFor="reason" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="reason" className="field-label">
           理由
         </label>
-        <textarea
-          id="reason"
-          name="reason"
-          rows={3}
-          required
-          maxLength={500}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        />
+        <textarea id="reason" name="reason" rows={3} required maxLength={500} className="field-input" />
       </div>
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-stamp-deep">{state.error}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className="btn-stamp w-full">
         {pending ? "送信中..." : "申請する"}
       </button>
     </form>

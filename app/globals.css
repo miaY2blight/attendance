@@ -1,26 +1,234 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* 台帳の紙 (ledger paper) */
+  --color-paper: #f5f4ee;
+  --color-paper-raised: #fbfaf6;
+  --color-paper-line: #ddd8c7;
+
+  /* 万年筆インク (fountain-pen ink) */
+  --color-ink: #1e2a38;
+  --color-ink-soft: #5b6572;
+  --color-ink-faint: #8f97a1;
+
+  /* 朱肉 (hanko vermillion ink) — the one accent, spent on purpose */
+  --color-stamp: #bb3431;
+  --color-stamp-deep: #8c2624;
+  --color-stamp-soft: #e9d3ce;
+
+  /* 検印 (inspection-stamp) status inks */
+  --color-status-ok: #3d6b4f;
+  --color-status-ok-soft: #dbe6dc;
+  --color-status-warn: #a9822f;
+  --color-status-warn-soft: #ece0c4;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --font-display: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+  --font-sans: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  --font-mono: "Roboto Mono", "SFMono-Regular", monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+* {
+  border-color: var(--color-paper-line);
+}
+
+::selection {
+  background: var(--color-stamp-soft);
+  color: var(--color-stamp-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-stamp);
+  outline-offset: 2px;
+}
+
+/* 罫線 (ledger rule) — hairline table styling shared by every record list */
+.ledger-table th {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-soft);
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.ledger-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--color-paper-line);
+  color: var(--color-ink);
+}
+
+.ledger-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* 検印 (inspection stamp) — small ring badge used for every status label */
+.stamp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+.stamp-badge::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+/* 朱肉スタンプ (ink-stamp) button — the primary punch action */
+.stamp-button {
+  position: relative;
+  width: 9.5rem;
+  height: 9.5rem;
+  border-radius: 999px;
+  border: 3px solid var(--color-stamp);
+  color: var(--color-stamp);
+  background: var(--color-paper-raised);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.stamp-button:hover:not(:disabled) {
+  background: var(--color-stamp);
+  color: var(--color-paper-raised);
+}
+
+.stamp-button--secondary {
+  width: 7rem;
+  height: 7rem;
+  font-size: 1.1rem;
+  border-color: var(--color-ink-faint);
+  color: var(--color-ink-soft);
+}
+
+.stamp-button--secondary:hover:not(:disabled) {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper-raised);
+}
+
+.stamp-button:active:not(:disabled) {
+  transform: scale(0.94) rotate(-2deg);
+}
+
+.stamp-button:disabled {
+  opacity: 0.5;
+}
+
+.stamp-button:not(:disabled):focus-visible {
+  animation: stamp-press 0.32s ease-out;
+}
+
+@keyframes stamp-press {
+  0% {
+    transform: scale(1.22) rotate(6deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.96) rotate(-2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid var(--color-paper-line);
+  background: var(--color-paper);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+}
+
+.field-input:focus {
+  border-color: var(--color-stamp);
+  outline: none;
+}
+
+.btn-stamp {
+  border: 1px solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-stamp:hover:not(:disabled) {
+  background: var(--color-stamp);
+  border-color: var(--color-stamp);
+}
+
+.btn-stamp:disabled {
+  opacity: 0.5;
+}
+
+.btn-outline {
+  border: 1px solid var(--color-paper-line);
+  background: transparent;
+  color: var(--color-ink-soft);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn-outline:disabled {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-button,
+  .stamp-button:not(:disabled):focus-visible {
+    transition: none;
+    animation: none;
+  }
 }

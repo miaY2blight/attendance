@@ -20,13 +20,13 @@ export function EditEmployeeForm({ employee }: Props) {
   const [state, formAction, pending] = useActionState(boundAction, initialState);
 
   return (
-    <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <form action={formAction} className="space-y-5 border border-paper-line bg-paper-raised p-6">
       <div>
-        <p className="mb-1 text-sm font-medium text-gray-700">社員ID</p>
-        <p className="text-sm text-gray-500">{employee.employeeCode}</p>
+        <p className="field-label">社員ID</p>
+        <p className="tabular text-sm text-ink-faint">{employee.employeeCode}</p>
       </div>
       <div>
-        <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="field-label">
           氏名
         </label>
         <input
@@ -35,39 +35,29 @@ export function EditEmployeeForm({ employee }: Props) {
           defaultValue={employee.name}
           required
           maxLength={100}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="field-input"
         />
       </div>
       <div>
-        <label htmlFor="role" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="role" className="field-label">
           権限
         </label>
-        <select
-          id="role"
-          name="role"
-          defaultValue={employee.role}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        >
+        <select id="role" name="role" defaultValue={employee.role} className="field-input">
           <option value="EMPLOYEE">社員</option>
           <option value="ADMIN">管理者</option>
         </select>
       </div>
       <div>
-        <label htmlFor="isActive" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="isActive" className="field-label">
           状態
         </label>
-        <select
-          id="isActive"
-          name="isActive"
-          defaultValue={String(employee.isActive)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        >
+        <select id="isActive" name="isActive" defaultValue={String(employee.isActive)} className="field-input">
           <option value="true">有効</option>
           <option value="false">無効</option>
         </select>
       </div>
       <div>
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="password" className="field-label">
           パスワード再設定(任意)
         </label>
         <input
@@ -76,17 +66,13 @@ export function EditEmployeeForm({ employee }: Props) {
           type="password"
           minLength={4}
           placeholder="変更する場合のみ入力"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="field-input"
         />
       </div>
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-stamp-deep">{state.error}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className="btn-stamp w-full">
         {pending ? "更新中..." : "更新する"}
       </button>
     </form>

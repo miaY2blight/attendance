@@ -11,7 +11,7 @@ export default async function EditEmployeePage({ params }: { params: Promise<{ i
 
   return (
     <div className="max-w-lg">
-      <h1 className="mb-6 text-lg font-semibold text-gray-900">社員編集: {employee.name}</h1>
+      <h1 className="mb-6 font-display text-lg text-ink">社員編集: {employee.name}</h1>
       <EditEmployeeForm
         employee={{
           id: employee.id,

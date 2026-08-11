@@ -14,30 +14,35 @@ export default async function Home() {
   const record = await getTodayRecord(user.id);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper">
       <AppHeader user={user} />
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        <div className="mx-auto max-w-sm rounded-lg border border-gray-200 bg-white p-8 shadow-sm">
-          <p className="text-center text-sm text-gray-500">{formatDateWithWeekday(new Date())}</p>
-          <div className="mt-4 grid grid-cols-2 gap-4 text-center text-sm">
+      <main className="mx-auto max-w-3xl px-4 py-12">
+        <div className="mx-auto max-w-md border border-paper-line bg-paper-raised px-8 pb-10 pt-8">
+          <p className="text-center text-xs font-medium tracking-[0.25em] text-ink-faint">
+            {formatDateWithWeekday(new Date())}
+          </p>
+          <h1 className="mt-1 text-center font-display text-lg text-ink">本日の打刻</h1>
+
+          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-6 border-y border-paper-line py-6 text-center">
             <div>
-              <p className="text-gray-500">出勤</p>
-              <p className="text-lg font-semibold text-gray-900">{formatTime(record?.clockIn)}</p>
+              <p className="text-xs tracking-widest text-ink-soft">出勤</p>
+              <p className="tabular mt-1 text-2xl text-ink">{formatTime(record?.clockIn)}</p>
             </div>
             <div>
-              <p className="text-gray-500">退勤</p>
-              <p className="text-lg font-semibold text-gray-900">{formatTime(record?.clockOut)}</p>
+              <p className="text-xs tracking-widest text-ink-soft">退勤</p>
+              <p className="tabular mt-1 text-2xl text-ink">{formatTime(record?.clockOut)}</p>
             </div>
             <div>
-              <p className="text-gray-500">休憩開始</p>
-              <p className="text-lg font-semibold text-gray-900">{formatTime(record?.breakStart)}</p>
+              <p className="text-xs tracking-widest text-ink-soft">休憩開始</p>
+              <p className="tabular mt-1 text-lg text-ink-soft">{formatTime(record?.breakStart)}</p>
             </div>
             <div>
-              <p className="text-gray-500">休憩終了</p>
-              <p className="text-lg font-semibold text-gray-900">{formatTime(record?.breakEnd)}</p>
+              <p className="text-xs tracking-widest text-ink-soft">休憩終了</p>
+              <p className="tabular mt-1 text-lg text-ink-soft">{formatTime(record?.breakEnd)}</p>
             </div>
           </div>
-          <div className="mt-6">
+
+          <div className="mt-8 flex flex-col items-center">
             <AttendanceButtons
               clockedIn={!!record?.clockIn}
               clockedOut={!!record?.clockOut}
