@@ -1,0 +1,97 @@
+<mxfile host="app.diagrams.net" modified="2026-08-12T00:00:00.000Z" agent="claude-code" version="24.7.0" type="device">
+  <diagram name="システム構成図" id="architecture-1">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="勤怠管理システム 構成図" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="360" y="20" width="450" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- User -->
+        <mxCell id="user" value="利用者&#10;(社員・管理者)" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="60" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Browser -->
+        <mxCell id="browser" value="Webブラウザ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="30" y="230" width="130" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- GitHub -->
+        <mxCell id="github" value="GitHub&#10;(ソースコード管理)&#10;push で自動デプロイ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="350" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Vercel container -->
+        <mxCell id="vercelBox" value="Vercel (ホスティング / サーバーレス)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="420" height="300" as="geometry" />
+        </mxCell>
+
+        <mxCell id="nextjs" value="Next.js 16 (App Router)&#10;・React 19 / TypeScript&#10;・Turbopack ビルド" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="165" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="auth" value="認証機能&#10;(セッション + bcryptjs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="550" y="165" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="serveractions" value="Server Actions&#10;(打刻・修正申請・承認・CSV出力など)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="250" width="360" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prisma" value="Prisma ORM 7&#10;(@prisma/adapter-pg)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="330" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Neon -->
+        <mxCell id="neon" value="Neon&#10;(サーバーレス Postgres)&#10;本番 / テスト用DBを分離" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="850" y="240" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Free tier note -->
+        <mxCell id="note" value="※ Vercel / Neon ともに無料プラン運用&#10;(クレジットカード登録不要、2026年8月時点)" style="text;html=1;fontSize=11;fontColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="850" y="350" width="260" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="user" target="browser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;startArrow=block;fontSize=11;" edge="1" parent="1" source="browser" target="vercelBox">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" value="git push で自動デプロイ" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;fontSize=11;dashed=1;" edge="1" parent="1" source="github" target="vercelBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;fontSize=11;" edge="1" parent="1" source="nextjs" target="serveractions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;fontSize=11;" edge="1" parent="1" source="auth" target="serveractions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="serveractions" target="prisma">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="Pooled connection&#10;(SQL over TCP)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="prisma" target="neon">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: local dev -->
+        <mxCell id="localdev" value="ローカル開発環境&#10;(npm run dev / vitest)&#10;→ 同じ Neon DB(別ブランチ)に接続" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="470" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;fontSize=11;dashed=1;" edge="1" parent="1" source="localdev" target="github">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
