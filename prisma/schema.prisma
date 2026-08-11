@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  EMPLOYEE
+  ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RecordStatus {
+  NORMAL
+  CORRECTED
+  MISSING
+}
+
+model User {
+  id           String   @id @default(cuid())
+  employeeCode String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(EMPLOYEE)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  attendanceRecords  AttendanceRecord[]
+  correctionRequests CorrectionRequest[] @relation("Requester")
+  approvedRequests   CorrectionRequest[] @relation("Approver")
+  sessions           Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AttendanceRecord {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  date       DateTime
+  clockIn    DateTime?
+  clockOut   DateTime?
+  breakStart DateTime?
+  breakEnd   DateTime?
+  status     RecordStatus @default(NORMAL)
+  note       String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@unique([userId, date])
+}
+
+model CorrectionRequest {
+  id                  String        @id @default(cuid())
+  userId              String
+  user                User          @relation("Requester", fields: [userId], references: [id])
+  targetDate          DateTime
+  requestedClockIn    DateTime?
+  requestedClockOut   DateTime?
+  requestedBreakStart DateTime?
+  requestedBreakEnd   DateTime?
+  reason              String
+  status              RequestStatus @default(PENDING)
+  approverId          String?
+  approver            User?         @relation("Approver", fields: [approverId], references: [id])
+  approverComment     String?
+  createdAt           DateTime      @default(now())
+  resolvedAt          DateTime?
+
+  @@index([userId])
+  @@index([status])
+}
